@@ -3,7 +3,48 @@ import EditSettings from './EditSettings';
 import '../styles/home.css'
 const Home = ({ toggleSettings }) => {
 
- const[isSettingsClicked,setIsSettingClicked] = useState(false);
+
+  let myMap = new Map();
+
+  const[defaultValue,setDefaultValue] = useState(96);
+  const[defaultValueofWavelength,setdefaultValueofWavelength] = useState(1);
+  const[inputValue,setInputValue]=useState(0);
+  let [arr,setArr] = useState([]);
+  let [lmValues,setlmValues] = useState([]);
+  
+  const handleValueChange = (e) => {
+      setDefaultValue(e.target.value); 
+      console.log(e.target.value)
+  }
+
+  const handleValueChangeOfWavelength = (e) =>{
+    setdefaultValueofWavelength(e.target.value)
+    setArr([])
+      console.log(defaultValueofWavelength)
+      for(let i=0;i<e.target.value;i++){
+        setArr(prevValue=>[...prevValue,i]);
+      }
+  }
+
+  const handleOnChange = (e,element) => { 
+      setInputValue(e.target.value);
+  }
+
+  const addValueToList=(e,element)=>{
+     console.log(inputValue)
+     console.log(element)
+     if(myMap.has(element)){
+       
+     }
+     else {
+      myMap.set(element,inputValue)
+     }
+     setlmValues(initialValues =>[...initialValues,inputValue]);   
+  }
+  
+  // --------------------------------------------------------------------------------
+
+ const[isSettingsClicked,setIsSettingClicked] = useState(true);
  const[isAcquireDataClicked,setIsAcquireData] = useState(true);
  const[shouldSettingBeDisabled,setshouldSettingBeDisabled] = useState(false)
  const[dataArr,setDataArr]=useState([])
@@ -12,9 +53,12 @@ const Home = ({ toggleSettings }) => {
  let interval;
 
  const handleSettingClick=(e)=>{
-    setIsSettingClicked(!isSettingsClicked)
+    setIsSettingClicked(false)
  }
     
+ const handleCancelEditSettings = (e) =>{
+  setIsSettingClicked(true)
+ }
 
   const acquireData = (e)=>{
      setshouldSettingBeDisabled(true);
@@ -45,9 +89,15 @@ const Home = ({ toggleSettings }) => {
     
   }
 
+  const handlePostData = (e) => {
+    
+  }
 
   return (
     <>
+    {
+     isSettingsClicked ?
+    
         <div className='startUp-menue'>
           <div className='buttons'>
              <button type='button'  disabled={shouldSettingBeDisabled} className='button btn btn-primary' onClick={({toggleSettings})=>handleSettingClick({toggleSettings})} >Settings...</button>
@@ -98,13 +148,58 @@ const Home = ({ toggleSettings }) => {
              <button type='button' className='button btn btn-secondary'>Cancel</button>
           </div>
 
-        </div>  
-    
+        </div> :
+         <div className='settings-menue'>
+           <div>
+       <div>
+          Number of Wells : <select
+            defaultValue={defaultValue}
+            onChange={(e)=>handleValueChange(e)}
+          >
+            <option value="24">24</option>
+            <option value="48">48</option>
+            <option value="96">96</option>
+            <option value="384">384</option>
+          </select>
+       </div>
+
+       <div>
+          Number of WaveLengths : <select
+            defaultValue={defaultValueofWavelength}
+            onChange={(e)=>handleValueChangeOfWavelength(e)}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+       </div>
+         
+       {
+        arr.map((element)=>{
+          return(
+            <div>
+             LM{element+1}:<input  type="number" onChange={(e,element)=>handleOnChange(e,element)} placeholder="Enter LM Value"></input>
+             <button className='btn btn-primary' onClick={(e)=>addValueToList(e,element)}>Add Wavelength To List</button>
+            </div>
+          )      
+        })
+       }
+       <div>{defaultValue}</div>
+       <div>{defaultValueofWavelength}</div>
+       <div>{lmValues}</div>
+         </div>
+         <div>
+           <button onClick={(e)=>handlePostData(e)}>Post Data</button>
+           </div>
           <div>
-             {
-                isSettingsClicked && <EditSettings></EditSettings>
-             }
-          </div>
+           <button onClick={(e)=>handleCancelEditSettings(e)}>Cancel Settings</button>
+           </div>          
+         </div> 
+    
+      }
     </>
   )
 }

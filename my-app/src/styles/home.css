@@ -7,6 +7,15 @@
     margin: 50px auto; 
 }
 
+.settings-menue{
+    width: 700px;
+    padding: 20px;
+    border: 3px solid #0417b6;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 50px auto; 
+}
+
 .button{
     margin-right: 20px;
 }
