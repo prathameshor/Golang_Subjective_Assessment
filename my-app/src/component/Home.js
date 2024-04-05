@@ -150,8 +150,8 @@ const Home = ({ toggleSettings }) => {
 
         </div> :
          <div className='settings-menue'>
+           <div className="setting-css ">
            <div>
-       <div>
           Number of Wells : <select
             defaultValue={defaultValue}
             onChange={(e)=>handleValueChange(e)}
@@ -192,10 +192,8 @@ const Home = ({ toggleSettings }) => {
        <div>{lmValues}</div>
          </div>
          <div>
-           <button onClick={(e)=>handlePostData(e)}>Post Data</button>
-           </div>
-          <div>
-           <button onClick={(e)=>handleCancelEditSettings(e)}>Cancel Settings</button>
+           <button onClick={(e)=>handlePostData(e)} className='button  btn btn-secondary'>Post Data</button>
+           <button onClick={(e)=>handleCancelEditSettings(e)} className='button  btn btn-secondary'>Cancel Settings</button>
            </div>          
          </div> 
     
